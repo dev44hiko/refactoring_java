@@ -59,15 +59,17 @@ class Invoice {
 }
 
 public class Accounting {
+    private Map<String, Play> mPlays;
     public String statement(Invoice invoice, Map<String, Play> plays) {
         int totalAmount = 0;
         int volumeCredits = 0;
         String result = "Statement for " + invoice.getCustomer() + "\n";
+        mPlays = plays;
 
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.US);
 
         for (Performance perf : invoice.getPerformances()) {
-            Play play = plays.get(perf.getPlayID());
+            Play play = playFor(perf);
             int thisAmount = 0;
 
             thisAmount = amountFor(perf, play);
@@ -87,6 +89,10 @@ public class Accounting {
         result += "You earned " + volumeCredits + " credits\n";
 
         return result;
+    }
+
+    private Play playFor(Performance perf) {
+        return mPlays.get(perf.getPlayID());
     }
 
     private int amountFor(Performance aPerformance, Play play) {
