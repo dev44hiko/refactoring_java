@@ -94,9 +94,9 @@ public class Accounting {
         return mPlays.get(perf.getPlayID());
     }
 
-    private int amountFor(Performance aPerformance, Play play) {
+    private int amountFor(Performance aPerformance) {
         int result = 0;
-        switch(play.getType()) {
+        switch(playFor(aPerformance).getType()) {
         case "tragedy":
             result = 40000;
             if (aPerformance.getAudience() > 30) {
@@ -111,7 +111,7 @@ public class Accounting {
             result += 300 * aPerformance.getAudience();
             break;
         default:
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("unknown type: " + playFor(aPerformance).getType());
         }
         return result;
     }
