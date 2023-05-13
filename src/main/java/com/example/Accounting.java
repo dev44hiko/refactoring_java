@@ -69,19 +69,18 @@ public class Accounting {
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.US);
 
         for (Performance perf : invoice.getPerformances()) {
-            Play play = playFor(perf);
             int thisAmount = 0;
 
-            thisAmount = amountFor(perf, play);
+            thisAmount = amountFor(perf, playFor(perf));
             
             // ボリューム特典のポイントを加算
             volumeCredits += Math.max(perf.getAudience() - 30, 0);
             // 喜劇のときは10人につき、さらにポイントを加算
-            if ("comedy" == play.getType()) {
+            if ("comedy" == playFor(perf).getType()) {
                 volumeCredits += (perf.getAudience() / 5);
             }
             // 注文の内訳を出力
-            result += "  " + play.getName() + ": " + numberFormat.format(thisAmount/100) + " (" + perf.getAudience() + " seats)\n";
+            result += "  " + playFor(perf).getName() + ": " + numberFormat.format(thisAmount/100) + " (" + perf.getAudience() + " seats)\n";
             totalAmount += thisAmount;
         }
 
