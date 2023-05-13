@@ -71,7 +71,7 @@ public class Accounting {
         for (Performance perf : invoice.getPerformances()) {
             int thisAmount = 0;
 
-            thisAmount = amountFor(perf, playFor(perf));
+            thisAmount = amountFor(perf);
             
             // ボリューム特典のポイントを加算
             volumeCredits += Math.max(perf.getAudience() - 30, 0);
