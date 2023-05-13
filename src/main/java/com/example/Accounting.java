@@ -69,10 +69,6 @@ public class Accounting {
         NumberFormat numberFormat = NumberFormat.getCurrencyInstance(Locale.US);
 
         for (Performance perf : invoice.getPerformances()) {
-            int thisAmount = 0;
-
-            thisAmount = amountFor(perf);
-            
             // ボリューム特典のポイントを加算
             volumeCredits += Math.max(perf.getAudience() - 30, 0);
             // 喜劇のときは10人につき、さらにポイントを加算
@@ -80,8 +76,8 @@ public class Accounting {
                 volumeCredits += (perf.getAudience() / 5);
             }
             // 注文の内訳を出力
-            result += "  " + playFor(perf).getName() + ": " + numberFormat.format(thisAmount/100) + " (" + perf.getAudience() + " seats)\n";
-            totalAmount += thisAmount;
+            result += "  " + playFor(perf).getName() + ": " + numberFormat.format(amountFor(perf)/100) + " (" + perf.getAudience() + " seats)\n";
+            totalAmount += amountFor(perf);
         }
 
         result += "Amount owed is " + numberFormat.format(totalAmount/100) + "\n";
